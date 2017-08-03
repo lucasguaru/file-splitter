@@ -17,8 +17,12 @@ public class FileOutput {
 	private int fileCount;
 	private Writer writer;
 	private int recordQty;
+	private String outputFolder;
+	private String outputFileNamePattern;
 
-	public FileOutput(String header, String trailer, int recordQty) {
+	public FileOutput(String outputFolder, String outputFileNamePattern, String header, String trailer, int recordQty) {
+		this.outputFolder = outputFolder;
+		this.outputFileNamePattern = outputFileNamePattern;
 		this.header = header;
 		this.trailer = trailer;
 		this.recordQty = recordQty;
@@ -65,7 +69,8 @@ public class FileOutput {
 	private void write(String line) {
 		try {
 			if (this.lineCount == 1) {
-				this.writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("filename" + this.fileCount + ".txt"), "UTF-8"));
+				String filename = this.outputFolder + "\\" + String.format(this.outputFileNamePattern, this.fileCount);
+				this.writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(filename), "UTF-8"));
 				this.writer.write(header + LINE_SEPARATOR);
 			}
 			this.writer.write(line + LINE_SEPARATOR);

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration>
+
+	<property resource="application.properties" />
+
+	<!-- =========================================================================================================== -->
+	<!-- Appenders -->
+	<!-- =========================================================================================================== -->
+
+	<appender name="APPLICATION_LOG_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<File>${BASE_LOG_PATH}/${application.name}.log</File>
+
+		<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+			<FileNamePattern>${BASE_LOG_PATH}/${application.name}_%i.log.zip
+			</FileNamePattern>
+			<MinIndex>1</MinIndex>
+			<MaxIndex>10</MaxIndex>
+		</rollingPolicy>
+
+		<triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+			<MaxFileSize>5MB</MaxFileSize>
+		</triggeringPolicy>
+
+		<append>true</append>
+
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<Pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} {%X{user}}
+				%msg%n</Pattern>
+		</layout>
+
+	</appender>
+
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<Pattern>%d{HH:mm:ss.SSS} %-5level [%thread] %logger - %msg%n
+			</Pattern>
+		</layout>
+	</appender>
+	
+	<!-- =========================================================================================================== -->
+	<!-- LOG LEVEL -->
+	<!-- =========================================================================================================== -->
+	
+	<property name="LOG_LEVEL" value="WARN" />
+	
+	<!-- =========================================================================================================== -->
+	<!-- LOG LEVEL -->
+	<!-- =========================================================================================================== -->
+
+	<if condition='isDefined(${logLevel})'>
+		<then>
+			<property name="LOG_LEVEL" value="${logLevel}" />
+		</then>
+	</if>
+	<!-- =========================================================================================================== -->
+	<!-- Loggers -->
+	<!-- =========================================================================================================== -->
+
+	<logger name="br.com.santander.msg">
+		<level value="${LOG_LEVEL}" />
+	</logger>
+
+
+	<!-- =========================================================================================================== -->
+	<!-- Root Logger -->
+	<!-- =========================================================================================================== -->
+
+	<root>
+		<level value="${LOG_LEVEL}" />
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="APPLICATION_LOG_FILE" />
+	</root>
+
+</configuration>
