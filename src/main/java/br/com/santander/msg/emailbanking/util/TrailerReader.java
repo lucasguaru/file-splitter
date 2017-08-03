@@ -15,5 +15,18 @@ public class TrailerReader {
 			return line;
 	}
 	
+	public static void main(String[] args) {
+		String filename = "C:\\ambiente-de-trabalho\\workspace\\file-splitter\\src\\main\\resources\\input.txt";
+		try {
+			String trailer = TrailerReader.readTrailer(filename);
+			System.out.println(trailer);
+			if (!trailer.equals("99TRAILER")) {
+				System.err.println("Arquivo não leu como esperado");
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	
 }
