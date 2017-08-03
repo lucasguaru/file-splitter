@@ -1,6 +1,7 @@
 package br.com.santander.msg.emailbanking;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import java.io.IOException;
 
@@ -8,14 +9,15 @@ import org.junit.Test;
 
 import br.com.santander.msg.emailbanking.util.TrailerReader;
 
-public class FileReaderTest {
+
+public class TrailerReaderTest {
 
 	@Test
 	public void testReadTrailer() {
-		String filename = "D:\\ambiente-de-trabalho\\workspace\\java-msgbat-email-banking-file-splitter\\src\\main\\resources\\input.txt";
+		String filename = "C:\\ambiente-de-trabalho\\workspace\\file-splitter\\src\\main\\resources\\input.txt";
 		try {
 			String trailer = TrailerReader.readTrailer(filename);
-			assertEquals("TRAILER", trailer);
+			assertEquals("99TRAILER", trailer);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

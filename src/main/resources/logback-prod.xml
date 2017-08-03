@@ -48,7 +48,7 @@
 	<!-- LOG LEVEL -->
 	<!-- =========================================================================================================== -->
 
-	<if condition='isDefined(${logLevel})'>
+	<if condition='isDefined("logLevel")'>
 		<then>
 			<property name="LOG_LEVEL" value="${logLevel}" />
 		</then>

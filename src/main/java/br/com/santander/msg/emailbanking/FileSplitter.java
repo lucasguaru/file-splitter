@@ -13,6 +13,7 @@ import br.com.santander.msg.emailbanking.util.TrailerReader;
 
 public class FileSplitter {
 	private static final Logger logger = LoggerFactory.getLogger(FileSplitter.class);
+	
 	private String labelSystem;
 	private String profileName;
 	private String projectName;

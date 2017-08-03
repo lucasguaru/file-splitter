@@ -6,13 +6,18 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class FileOutput {
+	private static final Logger logger = LoggerFactory.getLogger(FileOutput.class);
 	
 	public static final String LINE_SEPARATOR = System.getProperty("line.separator");
 
 	private String header;
 	private String trailer;
 	private int lineCount;
+	private int totalLineCount;
 	private int recordCount;
 	private int fileCount;
 	private Writer writer;
@@ -31,7 +36,7 @@ public class FileOutput {
 	}
 
 	public void append(String line) {
-		// TODO Auto-generated method stub
+		this.totalLineCount++;
 		if (line.startsWith("0")) {// Linha de dados
 			this.lineCount++;
 			this.write(line);
@@ -43,6 +48,7 @@ public class FileOutput {
 		} else if (line.startsWith("99")) {// Trailer fim de arquivo
 			this.writeTrailer();
 			saveFile();
+			logger.debug("Trailer atingido com registro iniciado por '99'. Total de {} linhas lidas no arquivo", this.totalLineCount);
 		}
 	}
 
@@ -70,6 +76,7 @@ public class FileOutput {
 		try {
 			if (this.lineCount == 1) {
 				String filename = this.outputFolder + "\\" + String.format(this.outputFileNamePattern, this.fileCount);
+				logger.debug("Criando novo arquivo[{}] de nome {}", this.fileCount, filename);
 				this.writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(filename), "UTF-8"));
 				this.writer.write(header + LINE_SEPARATOR);
 			}
@@ -82,6 +89,7 @@ public class FileOutput {
 	private void saveFile() {
 		try {
 			if (this.lineCount > 0) {
+				logger.debug("Salvando e fechando arquivo [{}]", this.fileCount);
 				this.writer.flush();
 				this.writer.close();
 			}
